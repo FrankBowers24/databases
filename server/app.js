@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var db = require('./db');
 
@@ -15,7 +16,8 @@ module.exports.app = app;
 app.set("port", 3000);
 
 // Logging and parsing
-app.use(morgan('dev'));
+var accessLogStream = fs.createWriteStream(__dirname+'/access.log',{flags:'a'});
+app.use(morgan('dev', {stream: accessLogStream}));
 app.use(parser.json());
 
 // Set up our routes
