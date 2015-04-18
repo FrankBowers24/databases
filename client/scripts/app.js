@@ -2,7 +2,8 @@
 app = {
 
     // server: 'https://api.parse.com/1/classes/chatterbox',
-    server: 'http://127.0.0.1:3000/classes/chatterbox',
+    // client must connect to same listing as server to prevent options requests
+    server: 'http://localhost:3000/classes/messages',
 
     init: function() {
       console.log('running chatterbox');
@@ -27,7 +28,7 @@ app = {
 
       var message = {
         username: app.username,
-        text: app.$text.val()
+        messageText: app.$text.val()
       };
 
       app.$text.val('');
@@ -37,7 +38,7 @@ app = {
 
     renderMessage: function(message){
       var $user = $("<div>", {class: 'user'}).text(message.username);
-      var $text = $("<div>", {class: 'text'}).text(message.text);
+      var $text = $("<div>", {class: 'text'}).text(message.messageText);
       var $message = $("<div>", {class: 'chat', 'data-id': message.objectId }).append($user, $text);
       return $message;
     },
@@ -64,7 +65,7 @@ app = {
         data: { order: '-createdAt' },
         contentType: 'application/json',
         success: function(json){
-          app.displayMessages(json.results);
+          app.displayMessages(json);
         },
         complete: function(){
           app.stopSpinner();

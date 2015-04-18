@@ -52,6 +52,8 @@ describe("Persistent Node Chat Server", function() {
 
         dbConnection.query(queryString, /*queryArgs, */function(err, results) {
           // Should have one result:
+          if (err)
+            console.log("should have one result, but error: ", err);
           expect(results.length).to.equal(1);
 
           expect(results[0].messageText).to.equal("In mercy's name, three days is all I need.");
