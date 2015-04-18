@@ -10,13 +10,13 @@ DROP TABLE users;
 /* INCLUDE ROOM */
 CREATE TABLE messages (
   /* Describe your table here.*/
+id int(11) NOT NULL auto_increment,
+PRIMARY KEY (id),
 username VARCHAR(100),
 messageText VARCHAR(100),
 roomname VARCHAR(100),
 createdAt DATE,
-updatedAt DATE,
-objectId int(11) NOT NULL auto_increment,
-PRIMARY KEY (objectId)
+updatedAt DATE
 );
 
 CREATE TABLE users (
