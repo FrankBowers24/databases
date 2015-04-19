@@ -22,7 +22,11 @@ var Message = sequelize.define('Message', {
 });
 
 Message.sync().success(function() {
-  console.log("mesage table created");
+  console.log("message table created");
+});
+
+User.sync().success(function() {
+  console.log("user table created");
 });
 
 
@@ -30,6 +34,12 @@ module.exports = {
   messages: {
     get: function (req, res) {
       console.log("GET REQUEST MESSAGES: ", req.url);
+      Message.findAll().complete(function(error, results) {
+        if (error)
+          console.log("error getting messages: " + error);
+        console.log( "GET MESSAGES RESULTS: " + JSON.stringify(results));
+        res.json(results);
+      })
 
       /*dbConnection.query('SELECT * FROM messages;', function(error, results, fields) {
         console.log("GET MESSAGES QUERY RESULTS: ", error, results);
@@ -42,8 +52,7 @@ module.exports = {
       console.log("THE REQUEST BODY FOR MESSAGES"+JSON.stringify(req.body));
       res.send("completed response to Messages");
       console.log("Request.body looks like", JSON.stringify(req.body));
-      Message.build(req.body)
-      .save()
+      Message.create(req.body)
       .success(function(msg) {
         console.log("Message created successfully: " + msg);
       })
@@ -61,6 +70,9 @@ module.exports = {
     // Ditto as above
     get: function (req, res) {
       console.log("GET REQUEST USERS: ", req.url);
+      User.find(req.body.username).complete(function(error, result) {
+        res.send(result);
+      })
     },
     post: function (req, res) {
       console.log("THE REQUEST BODY FOR USERS"+JSON.stringify(req.body));
